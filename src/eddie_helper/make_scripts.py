@@ -22,7 +22,7 @@ def run_stage_script(stageout_dict, script_file_path=None, hold_jid=None, job_na
     if hold_jid is not None:
         hold_script = f" -hold_jid {hold_jid}"
     if job_name is not None:
-        name_script = f" -N {job_name}"
+        job_name = f" -N {job_name}"
 
     """
     makes a stage out script from a stageout_dict of the form
@@ -33,7 +33,7 @@ def run_stage_script(stageout_dict, script_file_path=None, hold_jid=None, job_na
     script_text=f"""#!/bin/sh
 #$ -cwd
 #$ -q staging
-#$ -l h_rt=00:29:59{hold_script}{name_script}"""
+#$ -l h_rt=00:29:59{hold_script}{job_name}"""
 
     if script_file_path is None:
         script_file_path = f"{job_name}" + datetime.now().strftime("%Y-%m-%d_%H-%M-%S") + ".sh"
