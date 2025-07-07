@@ -1,12 +1,12 @@
 from datetime import datetime
 import subprocess
 
-def run_python_script(python_arg, username, venv=None, cores=None, email=None, h_rt=None, h_vmem=None, hold_jid=None, script_file_path=None, staging=False, job_name=None):
+def run_python_script(python_arg, venv=None, cores=None, email=None, h_rt=None, h_vmem=None, hold_jid=None, script_file_path=None, staging=False, job_name=None):
 
     if job_name is None:
         job_name = "run_python"
     
-    script_content = make_run_python_script(python_arg, username, venv=venv, cores=cores, email=email, h_rt=h_rt, h_vmem=h_vmem, hold_jid=hold_jid, staging=staging, job_name=job_name)
+    script_content = make_run_python_script(python_arg, venv=venv, cores=cores, email=email, h_rt=h_rt, h_vmem=h_vmem, hold_jid=hold_jid, staging=staging, job_name=job_name)
     
     if script_file_path is None:
         script_file_path = f"{job_name}" + datetime.now().strftime("%Y-%m-%d_%H-%M-%S") + ".sh"
@@ -49,7 +49,7 @@ def run_stage_script(stageout_dict, script_file_path=None, hold_jid=None, job_na
 
     return 
 
-def make_run_python_script(python_arg, username, venv=None, cores=None, email=None, h_rt=None, h_vmem=None, hold_jid=None, job_name=None, staging=False):
+def make_run_python_script(python_arg, venv=None, cores=None, email=None, h_rt=None, h_vmem=None, hold_jid=None, job_name=None, staging=False):
     """
     Makes a python script, which will run
     >>  python python_arg
@@ -92,7 +92,8 @@ def make_run_python_script(python_arg, username, venv=None, cores=None, email=No
     script_content = f"""#!/bin/bash
 #$ -cwd{staging_script}{core_script} -l rl9=true{vmem_script},h_rt={h_rt}{hold_script}{email_script}{name_script}
 
-/home/{username}/.local/bin/uv run {python_arg}"""
+source $HOME/.bashrc
+$HOME/.local/bin/uv run {python_arg}"""
 
     return script_content
 
