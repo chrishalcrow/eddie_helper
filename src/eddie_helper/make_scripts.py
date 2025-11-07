@@ -5,9 +5,9 @@ def run_python_script(python_arg, venv=None, cores=None, email=None, h_rt=None, 
 
     if job_name is None:
         job_name = "run_python"
-    
+
     script_content = make_run_python_script(python_arg, venv=venv, cores=cores, email=email, h_rt=h_rt, h_vmem=h_vmem, hold_jid=hold_jid, staging=staging, job_name=job_name)
-    
+
     if script_file_path is None:
         script_file_path = f"{job_name}" + datetime.now().strftime("%Y-%m-%d_%H-%M-%S") + ".sh"
 
@@ -19,11 +19,9 @@ def run_python_script(python_arg, venv=None, cores=None, email=None, h_rt=None, 
 
 def run_stage_script(stageout_dict, script_file_path=None, hold_jid=None, job_name=None):
 
+    hold_script=""
     if hold_jid is not None:
         hold_script = f" -hold_jid {hold_jid}"
-    else:
-        hold_script = None
-        
     if job_name is None:
         job_name = "stage"
 
@@ -46,19 +44,19 @@ def run_stage_script(stageout_dict, script_file_path=None, hold_jid=None, job_na
 
     for source, dest in stageout_dict.items():
         script_text = script_text + "\ncp -rn " + str(source) + " " + str(dest)
-    
+
     save_script(script_text, script_file_path)
     run_script(script_file_path)
 
-    return 
+    return
 
 def make_run_python_script(python_arg, venv=None, cores=None, email=None, h_rt=None, h_vmem=None, hold_jid=None, job_name=None, staging=False):
     """
     Makes a python script, which will run
     >>  python python_arg
 
-    If nothing else is supplied, this will run on the venv 'elrond' with 8 cores, 19GB of RAM per core, with a 
-    hard runtime limit of 48 hours.    
+    If nothing else is supplied, this will run on the venv 'elrond' with 8 cores, 19GB of RAM per core, with a
+    hard runtime limit of 48 hours.
     """
 
     if hold_jid is not None:
@@ -71,7 +69,7 @@ def make_run_python_script(python_arg, venv=None, cores=None, email=None, h_rt=N
         email_script = ""
     if venv is None:
         venv = "elrond"
-    
+
     if cores is None:
         cores = 8
 
@@ -117,4 +115,3 @@ def run_script(script_file_path):
     subprocess.run( compute_string.split() )
 
     return
-
