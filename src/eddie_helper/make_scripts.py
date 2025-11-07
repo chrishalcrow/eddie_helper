@@ -50,10 +50,11 @@ def run_stage_script(stageout_dict, script_file_path=None, hold_jid=None, job_na
 
     return
 
-def make_run_python_script(python_arg, venv=None, cores=None, email=None, h_rt=None, h_vmem=None, hold_jid=None, job_name=None, staging=False):
+def make_run_python_script(uv_directory, python_arg, venv=None, cores=None, email=None, h_rt=None, h_vmem=None, hold_jid=None, job_name=None, staging=False):
     """
     Makes a python script, which will run
-    >>  python python_arg
+    >> cd uv_directory
+    >> uv run python_arg
 
     If nothing else is supplied, this will run on the venv 'elrond' with 8 cores, 19GB of RAM per core, with a
     hard runtime limit of 48 hours.
@@ -94,6 +95,7 @@ def make_run_python_script(python_arg, venv=None, cores=None, email=None, h_rt=N
 #$ -cwd{staging_script}{core_script} -l rl9=true{vmem_script},h_rt={h_rt}{hold_script}{email_script}{name_script}
 
 source $HOME/.bashrc
+cd {uv_directory}
 $HOME/.local/bin/uv run {python_arg}"""
 
     return script_content
