@@ -21,6 +21,9 @@ def run_stage_script(stageout_dict, script_file_path=None, hold_jid=None, job_na
 
     if hold_jid is not None:
         hold_script = f" -hold_jid {hold_jid}"
+    else:
+        hold_script = None
+        
     if job_name is None:
         job_name = "stage"
 
