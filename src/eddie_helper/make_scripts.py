@@ -96,7 +96,7 @@ def make_run_python_script(uv_directory, python_arg, venv=None, cores=None, emai
 
 source $HOME/.bashrc
 cd {uv_directory}
-$HOME/.local/bin/uv run {python_arg}"""
+$HOME/.local/bin/uv run --no-sync {python_arg}"""
 
     return script_content
 
