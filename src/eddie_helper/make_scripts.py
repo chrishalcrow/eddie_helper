@@ -41,9 +41,16 @@ def run_stage_script(stageout_dict, script_file_path=None, hold_jid=None, job_na
     if script_file_path is None:
         script_file_path = f"{job_name}" + datetime.now().strftime("%Y-%m-%d_%H-%M-%S") + ".sh"
 
+    stageout = False
 
     for source, dest in stageout_dict.items():
         script_text = script_text + "\ncp -rn " + str(source) + " " + str(dest)
+
+        if 'datastore' in dest:
+            stageout = True
+
+    if stageout:
+        script_text = script_text + f"\nchmod -R 777 {dest}"
 
     save_script(script_text, script_file_path)
     run_script(script_file_path)
