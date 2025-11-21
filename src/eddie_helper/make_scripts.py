@@ -46,7 +46,7 @@ def run_stage_script(stageout_dict, script_file_path=None, hold_jid=None, job_na
     for source, dest in stageout_dict.items():
         script_text = script_text + "\ncp -rn " + str(source) + " " + str(dest)
 
-        if 'datastore' in dest:
+        if 'datastore' in str(dest):
             stageout = True
 
     if stageout:
