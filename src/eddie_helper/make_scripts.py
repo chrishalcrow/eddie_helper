@@ -125,7 +125,7 @@ def make_run_python_script(uv_directory, python_arg, venv=None, cores=None, emai
         vmem_script = f",h_rss={h_rss}G"
 
     script_content = f"""#!/bin/bash
-#$ -cwd{staging_script}{core_script} -l rl9=true{vmem_script},h_rt={h_rt}{hold_script}{email_script}{name_script}
+#$ -cwd{staging_script}{core_script} -l h_rt={h_rt}{vmem_script}{hold_script}{email_script}{name_script}
 
 source $HOME/.bashrc
 cd {uv_directory}
